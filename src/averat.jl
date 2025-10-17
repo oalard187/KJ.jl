@@ -40,7 +40,7 @@ function averat(run::Vector{Sample},
     for i in 1:ns
         samp = run[i]
         out[i,:name] = samp.sname
-        x, sx, y, sy, rho = averat(samp, channels, blank, pars)
+        x, sx, y, sy, rho = averat(samp, channels, blank, pars; physics=physics, numerical=numerical)
         
         if method == "Rb-Sr"
            Sr87_Sr86 = 1 / y
