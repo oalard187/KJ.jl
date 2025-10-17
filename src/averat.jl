@@ -22,13 +22,15 @@ function averat(run::Vector{Sample},
     if isnothing(method)
         xlab = "x"
         ylab = "y"
+        is_RbSr = false
     else
         P, D, d = getPDd(method)
         xlab = P * "/" * D
         ylab = d * "/" * D
+        is_RbSr = (P == "Rb87") && (D == "Sr87") && (d == "Sr86")
     end
   
-    if method == "Rb-Sr"
+    if is_RbSr
         column_names = ["name", xlab, "s[" * xlab * "]", ylab, "s[" * ylab * "]", "rho",
                     "Rb87/Sr86", "s[Rb87/Sr86]", "Sr87/Sr86", "s[Sr87/Sr86]"]
         out = DataFrame(hcat(fill("", ns), zeros(ns, 9)), column_names)
@@ -42,7 +44,7 @@ function averat(run::Vector{Sample},
         out[i,:name] = samp.sname
         x, sx, y, sy, rho = averat(samp, channels, blank, pars; physics=physics, numerical=numerical)
         
-        if method == "Rb-Sr"
+        if is_RbSr
            Sr87_Sr86 = 1 / y
            s_Sr87_Sr86 = sy * (Sr87_Sr86^2)
            Rb87_Sr86 = x * Sr87_Sr86
