@@ -97,7 +97,7 @@ function averat(Phat::AbstractVector,
         covmat = J * E * transpose(J)
         sx = sqrt(covmat[1,1])
         sy = sqrt(covmat[2,2])
-        rho = covmat[1,2]/sqrt(sx*sy)
+        rho = covmat[1,2]/(sx*sy)
         out = [init[1] sx init[2] sy rho]
     end
     return out
